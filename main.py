@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173",
+    "https://explorer-assistant.vercel.app",
 ]
 
 app.add_middleware(
@@ -15,6 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 def Hello():
-    return {"Hello":"World!"}
+    return {"Hello": "World!"}
