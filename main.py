@@ -12,7 +12,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 app = FastAPI()
 
 origins = [
-    "https://explorer-assistant-shichisan21.vercel.app/",
+    "https://explorer-assistant-shichisan21.vercel.app",
     # "http://localhost:5173",
 ]
 
