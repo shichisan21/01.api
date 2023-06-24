@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 from pydantic import BaseModel
 import openai
 import os
 
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
 # cors_origin = os.getenv("CORS_ORIGIN")
 
 app = FastAPI()
