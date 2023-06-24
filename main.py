@@ -7,12 +7,13 @@ import os
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
-cors_origin = os.getenv("CORS_ORIGIN")
+# cors_origin = os.getenv("CORS_ORIGIN")
 
 app = FastAPI()
 
 origins = [
     "https://explorer-assistant.vercel.app",
+    "http://127.0.0.1:8000/message/",
 ]
 
 app.add_middleware(
