@@ -1,10 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+from pydantic import BaseModel
+import openai
+import os
+
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+cors_origin = os.getenv("CORS_ORIGIN")
 
 app = FastAPI()
 
 origins = [
-    "https://explorer-assistant.vercel.app",
+    cors_origin,
 ]
 
 app.add_middleware(
@@ -16,6 +24,22 @@ app.add_middleware(
 )
 
 
+class Message(BaseModel):
+    message: str
+
+
 @app.get("/")
 def Hello():
     return {"Hello": "World!"}
+
+
+@app.post("/message/")
+async def get_gpt_response(message: Message):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": message.message},
+        ],
+    )
+    return {"message": response['choices'][0]['message']['content']}
