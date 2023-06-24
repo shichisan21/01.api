@@ -13,7 +13,7 @@ app = FastAPI()
 
 origins = [
     "https://explorer-assistant.vercel.app",
-    "http://127.0.0.1:8000/message/",
+    # "http://localhost:5173",
 ]
 
 app.add_middleware(
