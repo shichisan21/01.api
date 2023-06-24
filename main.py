@@ -12,8 +12,8 @@ cors_origin = os.getenv("CORS_ORIGIN")
 app = FastAPI()
 
 origins = [
-    "https://explorer-assistant-shichisan21.vercel.app/",
-    "https://explorer-assistant.vercel.app/",
+    "https://explorer-assistant-shichisan21.vercel.app",
+    "https://explorer-assistant.vercel.app",
     # "http://localhost:5173",
 ]
 
