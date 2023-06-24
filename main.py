@@ -12,7 +12,7 @@ cors_origin = os.getenv("CORS_ORIGIN")
 app = FastAPI()
 
 origins = [
-    cors_origin,
+    "https://explorer-assistant.vercel.app/",
 ]
 
 app.add_middleware(
