@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import openai
+# import openai
 import os
 
 # openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -33,13 +33,13 @@ def Hello():
     return {"Hello": "World!"}
 
 
-@app.post("/message/")
-async def get_gpt_response(message: Message):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": message.message},
-        ],
-    )
-    return {"message": response['choices'][0]['message']['content']}
+# @app.post("/message/")
+# async def get_gpt_response(message: Message):
+#     response = openai.ChatCompletion.create(
+#         model="gpt-3.5-turbo",
+#         messages=[
+#             {"role": "system", "content": "You are a helpful assistant."},
+#             {"role": "user", "content": message.message},
+#         ],
+#     )
+#     return {"message": response['choices'][0]['message']['content']}
