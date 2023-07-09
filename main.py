@@ -41,6 +41,17 @@ def Hello():
     return {"Hello": "World!"}
 
 
+@app.get("/test")
+def Calc():
+    return "a"+"3"
+
+
+@app.post("/testpost")
+def simple_receive(message: Message):
+    res = message.message
+    return res
+
+
 @app.post("/message/")
 async def get_gpt_response(message: Message):
     response = openai.ChatCompletion.create(
@@ -54,16 +65,16 @@ async def get_gpt_response(message: Message):
 
 
 @app.post("/upload-csv/")
-async def process_csv(data: CSVData):
-
-    base64_data = data.csvData
-    decoded_bytes = base64.b64decode(base64_data)
-    decoded_content = decoded_bytes.decode("utf-8")
+async def process_csv(file: UploadFile = File(...)):
+    contents = await file.read()
+    decoded_content = contents.decode("utf-8")
     csv_data = csv.reader(decoded_content.splitlines(), delimiter=",")
 
-    # CSVデータの処理を行う
-    # ここでは例として、各行の内容を表示するだけとします
-    for row in csv_data:
-        print(row)
+    data_array = []
 
-    return {"message": "CSV file received and processed successfully"}
+    for row in csv_data:
+        data_array.append(row)
+
+    print(data_array)
+
+    return {"message": "CSV file received and processed successfully",  "data": data_array}
