@@ -48,8 +48,11 @@ def Calc():
 
 @app.post("/testpost")
 def simple_receive(message: Message):
-    res = message.message
-    return res
+    if message.message is None or message.message == "":
+        res = "error!"
+    else:
+        res = message.message
+        return res
 
 
 @app.post("/message/")
