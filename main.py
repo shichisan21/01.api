@@ -50,9 +50,12 @@ def Calc():
 def simple_receive(message: Message):
     if message.message is None or message.message == "":
         res = "error!"
+    elif "Open AI" in message.message:
+        res = "Open AI included!"
     else:
         res = message.message
-        return res
+
+    return res
 
 
 @app.post("/message/")
