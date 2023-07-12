@@ -7,11 +7,19 @@ import os
 import csv
 import base64
 
+from routes import talk, calc, csv
+
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 cors_origin = os.getenv("CORS_ORIGIN")
 
 app = FastAPI()
+
+# ルート追加
+app.include_router(talk.router)
+app.include_router(calc.router)
+app.include_router(csv.router)
+
 
 origins = [
     "https://explorer-assistant-shichisan21.vercel.app",
@@ -36,16 +44,6 @@ class CSVData(BaseModel):
     csvData: str
 
 
-@app.get("/")
-def Hello():
-    return {"Hello": "World!"}
-
-
-@app.get("/test")
-def Calc():
-    return "a"+"3"
-
-
 @app.post("/testpost")
 def simple_receive(message: Message):
     if message.message is None or message.message == "":
@@ -68,19 +66,3 @@ async def get_gpt_response(message: Message):
         ],
     )
     return {"message": response['choices'][0]['message']['content']}
-
-
-@app.post("/upload-csv/")
-async def process_csv(file: UploadFile = File(...)):
-    contents = await file.read()
-    decoded_content = contents.decode("utf-8")
-    csv_data = csv.reader(decoded_content.splitlines(), delimiter=",")
-
-    data_array = []
-
-    for row in csv_data:
-        data_array.append(row)
-
-    print(data_array)
-
-    return {"message": "CSV file received and processed successfully",  "data": data_array}
