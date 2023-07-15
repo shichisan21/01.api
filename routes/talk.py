@@ -1,12 +1,13 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import boto3
+import uuid
 
 router = APIRouter()
 
 
 class Item(BaseModel):
-    id: int
+    id: str = str(uuid.uuid4())
     name: str
 
 
@@ -27,14 +28,15 @@ def get_item(dynamodb, table_name, id):
 
 def put_item(dynamodb, table_name, item):
     table = dynamodb.Table(table_name)
+    unique_id = str(uuid.uuid4())
     response = table.put_item(
-        Item={"Id": item.id, "name": item.name}
+        Item={"Id": unique_id, "name": item.name}
     )
     return response
 
 
 @router.get("/get_item/{id}")
-def read_item(id: int):
+def read_item(id: str):
     dynamodb = create_dynamodb_client()
     item = get_item(dynamodb, "talk-app-table", id)
     return item
