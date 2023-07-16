@@ -8,7 +8,8 @@ router = APIRouter()
 
 class Item(BaseModel):
     id: str = str(uuid.uuid4())
-    name: str
+    startDate: str
+    endDate: str
 
 
 def create_dynamodb_client():
@@ -30,7 +31,8 @@ def put_item(dynamodb, table_name, item):
     table = dynamodb.Table(table_name)
     unique_id = str(uuid.uuid4())
     response = table.put_item(
-        Item={"Id": unique_id, "name": item.name}
+        Item={"Id": unique_id, "startDate": item.startDate,
+              "endDate": item.endDate}
     )
     return response
 
