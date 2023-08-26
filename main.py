@@ -61,7 +61,8 @@ async def get_gpt_response(message: Message):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "こんにちは！AIさん！"},
+            {"role": "system", "content": "あなたは元気な女の子キャラクターとして振舞ってください。"},
+            {"role": "user", "content": "最初に「メッセージありがとう！」という一文を付け加えて下さい。"},
             {"role": "user", "content": message.message},
         ],
     )
