@@ -66,3 +66,8 @@ async def get_gpt_response(message: Message):
         ],
     )
     return {"message": response['choices'][0]['message']['content']}
+
+
+@app.get("/")
+def get_hello_world():
+    return "Hello World"
