@@ -1,4 +1,6 @@
 .http
+*.md
+*.jsonl
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
