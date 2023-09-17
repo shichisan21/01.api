@@ -6,6 +6,8 @@ import openai
 import os
 import csv
 import base64
+from starlette.routing import Mount, Route, Router
+from starlette.websockets import WebSocket
 
 from routes import talk, calc, csv
 
@@ -14,6 +16,29 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 cors_origin = os.getenv("CORS_ORIGIN")
 
 app = FastAPI()
+websocket_app = FastAPI()
+
+
+@websocket_app.websocket_route("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    connected.add(websocket)
+    try:
+        while True:
+            message = await websocket.receive_text()
+            for conn in connected:
+                if conn != websocket:
+                    await conn.send_text(message)
+    except:
+        pass
+    finally:
+        connected.remove(websocket)
+
+main_app = FastAPI()
+
+main_app.mount("/", app)
+main_app.mount("/ws", websocket_app)
+
 
 # ルート追加
 app.include_router(talk.router)
